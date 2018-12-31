@@ -1,16 +1,21 @@
-set nocompatible  " be iMproved, required
+set nocompatible
 set encoding=utf-8 " required by YCM
-filetype off      " required
+filetype off " required
 let vim_markdown_preview_github=1
 call plug#begin('~/.vim/plugged')
 
 " ======== plugin manager
+Plug 'ryanoasis/vim-devicons'
 Plug  'VundleVim/Vundle.vim'
+Plug 'trusktr/seti.vim'
+Plug 'morhetz/gruvbox'
 
 " ========== autocomplete
 Plug 'ervandew/supertab'
-Plug 'valloric/youcompleteme', { 'do': './install.py' }
+
+" Plug 'valloric/youcompleteme'
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+
 " YCM compatibility with UltiSnips
 let g:ycm_key_list_select_completion = [ '<C-n>', '<Down>' ] 
 let g:ycm_key_list_previous_completion = [ '<C-p>', '<Up>' ]
@@ -25,17 +30,18 @@ augroup autoindent
 augroup End
 
 " Jsx synthax highlight for vim
-
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'chrisbra/csv.vim'
 
 " ========= Editor config
 Plug 'editorconfig/editorconfig-vim'
 Plug 'drewtempelmeyer/palenight.vim'
+
 " ========= vim markdown
 Plug 'JamshedVesuna/vim-markdown-preview'
+
 " ========= snippets
-Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
@@ -46,6 +52,8 @@ Plug 'tmhedberg/SimpylFold'
 let g:SimpylFold_docstring_preview=1
 set foldmethod=indent
 set foldlevel=99
+set tags=./tags,tags;$HOME
+set autochdir
 nnoremap <space> za 
 
 " ========== colorschemes 
@@ -70,8 +78,9 @@ let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.vue,*.php,*.phtml,*.js'
 
 " ========= file tree
 Plug  'scrooloose/nerdtree'
-let NERDTreeIgnore = [ '__pycache__',  '\.pyc$', '\.o$', '\.swp', '*\.swp', 'node_modules/' ]
+let NERDTreeIgnore = [ '__pycache__', '.vscode', '\.pyc$', '\.o$', '\.swp', '*\.swp', 'node_modules/' ]
 let NERDTreeShowHidden=1
+let NERDTreeWinSize=36
 
 " ========= navigation
 Plug 'christoomey/vim-tmux-navigator'
@@ -96,6 +105,7 @@ Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plug 'majutsushi/tagbar'
 Plug 'wincent/command-t'
 Plug 'bling/vim-airline'
+
 " airline powerline fonts
 let g:airline_powerline_fonts=1
 
@@ -107,13 +117,16 @@ filetype plugin indent on    " required
 " ============= extra settings
 set autochdir
 syntax on
+
 " Enable backspace on vim
 set bs=2
+
 " tabs to 4 spaces
 " set smartindent
-set background=dark " required by gruvbox
+" set background=dark " required by gruvbox
 set tabstop=4
 set shiftwidth=4
+
 " set mouse=a
 set expandtab
 set ruler
@@ -129,12 +142,8 @@ set showmatch                   " Show matching brackets/parenthesis
 set incsearch                   " Find as you type search
 set hlsearch                    " Highlight search terms
 set syntax=html
+
 " let &colorcolumn="80"
-:set guioptions-=m " remove menu bar
-:set guioptions-=T " remove toolbar
-:set guioptions-=r " remove right-hand scroll bar
-:set guioptions-=L " remove left-hand scroll bar
-":set lines=999 columns=999
 set shortmess+=A " disable swap file warning
 
 " hybrid line numbers
@@ -144,10 +153,13 @@ augroup numbertoggle
     autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
     autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
 augroup END
+
 " colorschemes 
 " Dark: monokai-chris, gruvbox
 " Light: ChocolatePapaya
-" colorscheme gruvbox
+colorscheme gruvbox
+
+" colorscheme seti
 " let g:gruvbox_constrast_dark='hard'
 
 " split below and right feels more natural
@@ -157,7 +169,7 @@ set splitbelow
 " HTML indentation
 "
 " colorscheme material
-colorscheme palenight
+" colorscheme palenight
 
 " syntax enable
 " colorscheme monokai
@@ -189,5 +201,18 @@ if (has("termguicolors"))
     set termguicolors
 endif
 
-let g:lightline = { 'colorscheme': 'palenight'}
+" let g:lightline = { 'colorscheme': 'palenight'}
 " let g:material_theme_style = 'default'
+
+" Commenting blocks of code.
+autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
+autocmd FileType sh,ruby,python   let b:comment_leader = '# '
+autocmd FileType conf,fstab       let b:comment_leader = '# '
+autocmd FileType tex              let b:comment_leader = '% '
+autocmd FileType mail             let b:comment_leader = '> '
+autocmd FileType vim              let b:comment_leader = '" '
+noremap <silent> cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+noremap <silent> cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+
+let g:pymode_python = 'python3'
+
