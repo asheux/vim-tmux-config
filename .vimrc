@@ -1,72 +1,55 @@
-set nocompatible
 set encoding=utf-8 " required by YCM
-filetype off " required
 let vim_markdown_preview_github=1
-call plug#begin('~/.vim/plugged')
 
-" ======== plugin manager
-Plug 'ryanoasis/vim-devicons'
-Plug  'VundleVim/Vundle.vim'
-Plug 'trusktr/seti.vim'
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin()
+
+" Gruvbox theme
 Plug 'morhetz/gruvbox'
 
-" ========== autocomplete
+" Icon support
+Plug 'ryanoasis/vim-devicons'
+
+" Autocomplete
 Plug 'ervandew/supertab'
+Plug 'valloric/youcompleteme'
 
-" Plug 'valloric/youcompleteme'
-let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-
-" YCM compatibility with UltiSnips
-let g:ycm_key_list_select_completion = [ '<C-n>', '<Down>' ] 
-let g:ycm_key_list_previous_completion = [ '<C-p>', '<Up>' ]
-let g:SuperTabDefaultCompletionType = '<C-n>'
-set completeopt-=preview " disable preview window
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
-" auto indent on save
-augroup autoindent
-    au!
-    autocmd BufWritePre * :normal migg=G`i
-augroup End
+" fuzzy finder
+Plug '~/.fzf'
 
 " Jsx synthax highlight for vim
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'chrisbra/csv.vim'
 
-" ========= Editor config
+" Editor config
 Plug 'editorconfig/editorconfig-vim'
 Plug 'drewtempelmeyer/palenight.vim'
 
-" ========= vim markdown
+" Vim markdown
 Plug 'JamshedVesuna/vim-markdown-preview'
 
-" ========= snippets
+" Snippets
 Plug 'honza/vim-snippets'
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
-" ============= code folding
+" Code folding
 Plug 'tmhedberg/SimpylFold'
-let g:SimpylFold_docstring_preview=1
-set foldmethod=indent
-set foldlevel=99
-set tags=./tags,tags;$HOME
-set autochdir
-nnoremap <space> za 
 
-" ========== colorschemes 
+" Colorschemes 
 Plug 'flazz/vim-colorschemes'
-inoremap jj <ESC>:w<CR>
 
-" =========== git
+" Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'kaicataldo/material.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
-" ========= syntax helpers
+" Syntax helpers
 Plug 'scrooloose/syntastic'
 Plug 'Chiel92/vim-autoformat'
 Plug 'othree/html5.vim'
@@ -74,56 +57,65 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'jiangmiao/auto-pairs'
 Plug 'lambdalisue/vim-django-support'
 Plug 'alvan/vim-closetag'
-let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.vue,*.php,*.phtml,*.js'
 
-" ========= file tree
+" File tree
 Plug  'scrooloose/nerdtree'
-let NERDTreeIgnore = [ '__pycache__', '.vscode', '\.pyc$', '\.o$', '\.swp', '*\.swp', 'node_modules/' ]
-let NERDTreeShowHidden=1
-let NERDTreeWinSize=36
 
-" ========= navigation
+" Navigation
 Plug 'christoomey/vim-tmux-navigator'
-" autostart nerd-tree
-autocmd vimenter * NERDTree
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:stdn_in") | NERDTree | endif
-" nerdtree toggle
-map <C-n> :NERDTreeToggle<CR>
 Plug 'zhaocai/GoldenView.Vim'
-let g:goldenview__enable_default_mapping = 0
 Plug 'benmills/vimux'
-" vimux binding
-map <Leader>vp :VimuxPromptCommand<CR>
-nmap <F8> :TagbarToggle<CR>
 
-" ======= fuzzy find
-Plug 'ctrlpvim/ctrlp.vim'
-
-" ======= extras
+" Extras
 Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plug 'majutsushi/tagbar'
 Plug 'wincent/command-t'
 Plug 'bling/vim-airline'
 
-" airline powerline fonts
-let g:airline_powerline_fonts=1
-
 Plug 'easymotion/vim-easymotion'
 
-call plug#end()            " required
-filetype plugin indent on    " required
+" Initialize plugin system
+call plug#end() 
 
-" ============= extra settings
+" Airline powerline fonts
+let g:airline_powerline_fonts=1
+let NERDTreeIgnore = [ '__pycache__', '.vscode', '\.pyc$', '\.o$', '\.swp', '*\.swp', 'node_modules/' ]
+let NERDTreeShowHidden=1
+let NERDTreeWinSize=36
+
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.vue,*.php,*.phtml,*.js'
+let g:SimpylFold_docstring_preview=1
+let g:goldenview__enable_default_mapping = 0
+let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+
+" YCM compatibility with UltiSnips
+let g:ycm_key_list_select_completion = [ '<C-n>', '<Down>' ] 
+let g:ycm_key_list_previous_completion = [ '<C-p>', '<Up>' ]
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" HTML indentation
+" syntax enable
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
+let g:html_indent_inctags = "address,article,aside,audio,blockquote,canvas,dd,div,dl,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,hr,main,nav,noscript,ol,output,p,pre,section,table,tfoot,ul,video"
+
+let g:pymode_python = 'python3'
+let g:gruvbox_constrast_dark='hard'
+
+set foldmethod=indent
+set foldlevel=99
+set tags=./tags,tags;$HOME
 set autochdir
-syntax on
-
+set completeopt-=preview " disable preview window
+set autochdir
 " Enable backspace on vim
 set bs=2
-
 " tabs to 4 spaces
 " set smartindent
-" set background=dark " required by gruvbox
+set background=dark " required by gruvbox
 set tabstop=4
 set shiftwidth=4
 
@@ -131,13 +123,10 @@ set shiftwidth=4
 set expandtab
 set ruler
 set hidden
-set nowrap											" Do not wrap long lines
-set autoindent									" Indent at the same level of the previous line
-set softtabstop=4								" Let backspace delete indent
+set nowrap
+set autoindent
+set softtabstop=4
 set autoread
-au CursorHold * checktime
-au FocusGained * :redraw!
-au FocusGained * :q!
 set showmatch                   " Show matching brackets/parenthesis
 set incsearch                   " Find as you type search
 set hlsearch                    " Highlight search terms
@@ -148,6 +137,50 @@ set shortmess+=A " disable swap file warning
 
 " hybrid line numbers
 set number relativenumber
+
+" split below and right
+set splitbelow
+
+" " syntax on
+
+" nerdtree toggle
+map <C-n> :NERDTreeToggle<CR>
+
+inoremap jj <ESC>:w<CR>
+
+" autostart nerd-tree
+" autocmd vimenter * NERDTree
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:stdn_in") | NERDTree | endif
+
+nnoremap <C-p> :<C-u>FZF<CR>
+
+" vimux binding
+map <Leader>vp :VimuxPromptCommand<CR>
+nmap <F8> :TagbarToggle<CR>
+nnoremap <space> za 
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" Commenting blocks of code.
+autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
+autocmd FileType sh,ruby,python   let b:comment_leader = '# '
+autocmd FileType conf,fstab       let b:comment_leader = '# '
+autocmd FileType tex              let b:comment_leader = '% '
+autocmd FileType mail             let b:comment_leader = '> '
+autocmd FileType vim              let b:comment_leader = '" '
+noremap <silent> cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+noremap <silent> cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+
+" auto indent on save
+augroup autoindent
+    au!
+    autocmd BufWritePre * :normal migg=G`i
+augroup End
+
+au CursorHold * checktime
+au FocusGained * :redraw!
+au FocusGained * :q!
+
 augroup numbertoggle
     autocmd!
     autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
@@ -158,24 +191,6 @@ augroup END
 " Dark: monokai-chris, gruvbox
 " Light: ChocolatePapaya
 colorscheme gruvbox
-
-" colorscheme seti
-" let g:gruvbox_constrast_dark='hard'
-
-" split below and right feels more natural
-set splitbelow
-
-"
-" HTML indentation
-"
-" colorscheme material
-" colorscheme palenight
-
-" syntax enable
-" colorscheme monokai
-let g:html_indent_script1 = "inc"
-let g:html_indent_style1 = "inc"
-let g:html_indent_inctags = "address,article,aside,audio,blockquote,canvas,dd,div,dl,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,hr,main,nav,noscript,ol,output,p,pre,section,table,tfoot,ul,video"
 
 "if (has("nvim"))
 "    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
@@ -203,16 +218,3 @@ endif
 
 " let g:lightline = { 'colorscheme': 'palenight'}
 " let g:material_theme_style = 'default'
-
-" Commenting blocks of code.
-autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
-autocmd FileType sh,ruby,python   let b:comment_leader = '# '
-autocmd FileType conf,fstab       let b:comment_leader = '# '
-autocmd FileType tex              let b:comment_leader = '% '
-autocmd FileType mail             let b:comment_leader = '> '
-autocmd FileType vim              let b:comment_leader = '" '
-noremap <silent> cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
-noremap <silent> cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
-
-let g:pymode_python = 'python3'
-
