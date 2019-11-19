@@ -35,6 +35,12 @@ Plug 'morhetz/gruvbox'
 " Go languag support for vim
 Plug 'fatih/vim-go', {'do': 'GoUpdateBinaries'}
 
+Plug 'google/vim-maktaba'
+Plug 'google/vim-codefmt'
+" Also add Glaive, which is used to configure codefmt's maktaba flags. See
+" `:help :Glaive` for usage.
+Plug 'google/vim-glaive'
+
 " Icon support
 Plug 'ryanoasis/vim-devicons'
 
@@ -135,7 +141,7 @@ set tags=./tags,tags;$HOME
 set autochdir
 set completeopt-=preview " disable preview window
 set autochdir
-set bs=2
+set bs=0
 set background=dark " required by gruvbox
 set tabstop=4
 set shiftwidth=4
@@ -177,6 +183,19 @@ map <Leader>vp :VimuxPromptCommand<CR>
 nmap <F8> :TagbarToggle<CR>
 nnoremap <space> za 
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" Format automatically
+augroup autoformat_settings
+    autocmd FileType bzl AutoFormatBuffer buildifier
+    autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+    autocmd FileType dart AutoFormatBuffer dartfmt
+    autocmd FileType go AutoFormatBuffer gofmt
+    autocmd FileType gn AutoFormatBuffer gn
+    autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+    autocmd FileType python AutoFormatBuffer yapf
+    " Alternative: autocmd FileType python AutoFormatBuffer autopep8
+    autocmd FileType vue AutoFormatBuffer prettier
+augroup END
 
 " Commenting blocks of code.
 autocmd FileType c,cpp,java,scala,go let b:comment_leader = '// '
