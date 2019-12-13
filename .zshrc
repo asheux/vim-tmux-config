@@ -26,7 +26,7 @@ export PATH="$HOME_PATH/anaconda3/bin:$PATH"
 
 eval $(thefuck --alias fuck)
 
-ZSH_THEME="amuse"
+ZSH_THEME="flazz"
 
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
@@ -63,6 +63,9 @@ alias src-venv="source venv/bin/activate"
 alias opencv="pkg-config --cflags --libs /usr/local/Cellar/opencv/4.1.1_2/lib/pkgconfig/opencv4.pc"
 alias zshconfig="mate ~/.zshrc"
 alias ohmyzsh="mate ~/.oh-my-zsh"
+alias net="netstat | fzf"
+alias gb="go build"
+alias gm="go mod init"
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME_PATH/.local/bin:$PATH"

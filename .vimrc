@@ -135,13 +135,13 @@ let g:html_indent_inctags = "address,article,aside,audio,blockquote,canvas,dd,di
 let g:pymode_python = 'python3'
 let g:gruvbox_constrast_dark='hard'
 
-set foldmethod=indent
+" set foldmethod=indent
 set foldlevel=99
 set tags=./tags,tags;$HOME
 set autochdir
 set completeopt-=preview " disable preview window
 set autochdir
-set bs=0
+set bs=2
 set background=dark " required by gruvbox
 set tabstop=4
 set shiftwidth=4
@@ -149,7 +149,7 @@ set expandtab
 set ruler
 set hidden
 set nowrap
-set autoindent
+" set autoindent
 set softtabstop=4
 set autoread
 set showmatch                   " Show matching brackets/parenthesis
@@ -177,12 +177,18 @@ inoremap jj <ESC>:w<CR>
 " autocmd VimEnter * if argc() == 0 && !exists("s:stdn_in") | NERDTree | endif
 
 nnoremap <C-p> :<C-u>Files<CR>
+nnoremap <C-i> :GoImports<CR>
 
 " vimux binding
 map <Leader>vp :VimuxPromptCommand<CR>
 nmap <F8> :TagbarToggle<CR>
 nnoremap <space> za 
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+augroup python
+    autocmd!
+    autocmd FileType python syn keyword pythonSelf self | highlight def link pythonSelf Special
+augroup end
 
 " Format automatically
 augroup autoformat_settings
@@ -208,10 +214,10 @@ noremap <silent> cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR
 noremap <silent> cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
 
 " auto indent on save
-augroup autoindent
-    au!
-    autocmd BufWritePre * :normal migg=G`i
-augroup End
+" augroup autoindent
+"     au!
+"     autocmd BufWritePre * :normal migg=G`i
+" augroup End
 
 au CursorHold * checktime
 au FocusGained * :redraw!
