@@ -31,6 +31,12 @@ call plug#begin()
 
 " Gruvbox theme
 Plug 'morhetz/gruvbox'
+Plug 'joshdick/onedark.vim'
+
+" Vim mergetool
+Plug 'samoshkin/vim-mergetool'
+
+Plug 'sheerun/vim-polyglot'
 
 " Go languag support for vim
 Plug 'fatih/vim-go', {'do': 'GoUpdateBinaries'}
@@ -113,6 +119,23 @@ let NERDTreeIgnore = [ '__pycache__', '.vscode', '\.pyc$', '\.o$', '\.swp', '*\.
 let NERDTreeShowHidden=1
 let NERDTreeWinSize=36
 
+" Vim mergetool customization
+" (m) - for working tree version of MERGED file
+" (r) - for 'remote' revision
+" common ancestor of two branches, i.e. git merge-base branchX branchY
+let g:mergetool_layout = 'mr,b'
+let g:mergetool_prefer_revision = 'local' " possible values: 'local' (default), 'remote', 'base'
+
+function s:on_mergetool_set_layout(split)
+    if a:split["layout"] ==# 'mr,b' && a:split["split"] ==# 'b'
+        set nodiff
+        set syntax=on
+
+        resize 15
+    endif
+endfunction
+let g:MergetoolSetLayoutCallback = function('s:on_mergetool_set_layout')
+
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
@@ -133,7 +156,12 @@ let g:html_indent_style1 = "inc"
 let g:html_indent_inctags = "address,article,aside,audio,blockquote,canvas,dd,div,dl,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,hr,main,nav,noscript,ol,output,p,pre,section,table,tfoot,ul,video"
 
 let g:pymode_python = 'python3'
-let g:gruvbox_constrast_dark='hard'
+let g:gruvbox_constrast_dark='default'
+let g:gruvbox_italic=1
+
+" OneDark
+let g:onedark_hide_endofbuffer = 1
+let g:onedark_terminal_italics = 1
 
 " set foldmethod=indent
 set foldlevel=99
@@ -141,8 +169,8 @@ set tags=./tags,tags;$HOME
 set autochdir
 set completeopt-=preview " disable preview window
 set autochdir
-set bs=2
 set background=dark " required by gruvbox
+set bs=2
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -168,6 +196,8 @@ set splitbelow
 
 " nerdtree toggle
 map <C-n> :NERDTreeToggle<CR>
+map <F10> :set paste<CR>
+map <F11> :set nopaste<CR>
 
 inoremap jj <ESC>:w<CR>
 
@@ -177,7 +207,10 @@ inoremap jj <ESC>:w<CR>
 " autocmd VimEnter * if argc() == 0 && !exists("s:stdn_in") | NERDTree | endif
 
 nnoremap <C-p> :<C-u>Files<CR>
-nnoremap <C-i> :GoImports<CR>
+" nnoremap <C-i> :GoImports<CR>
+
+" vim mergetooltoggle
+nmap <leader>mt <plug>(MergetoolToggle)
 
 " vimux binding
 map <Leader>vp :VimuxPromptCommand<CR>
@@ -232,7 +265,10 @@ augroup END
 " colorschemes 
 " Dark: monokai-chris, gruvbox
 " Light: ChocolatePapaya
-colorscheme gruvbox
+colorscheme gruvbox 
+
+syntax on
+" colorscheme onedark
 
 if (has("nvim"))
     "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >

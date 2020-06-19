@@ -1,5 +1,5 @@
 # Home directory
-export HOME_PATH="/home/asheuh"
+export HOME_PATH="/home/kreebz"
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -52,33 +52,47 @@ export PATH=$PATH:/usr/local/go/bin
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
+
+# Anaconda
+alias actconda="source /opt/anaconda/bin/activate root"
+# alias actconda="conda activate"
+alias deconda="source /opt/anaconda/bin/deactivate root"
+# alias deconda="conda deactivate"
+
+# Start postgresql
 alias psql-start="pg_ctl -D /usr/local/var/postgres start"
 alias psql-restart="pg_ctl -D /usr/local/var/postgres restart"
 alias psql-stop="pg_ctl -D /usr/local/var/postgres stop"
-alias create-venv="python3 -m venv venv"
-alias python=python3
-alias pip=pip3
-alias htdocs="cd $HOME_PATH/.bitnami/stackman/machines/xampp/volumes/root/htdocs"
+
+# In arch linux
+alias startme="sudo systemctl start postgresql"
+alias stopme="sudo systemctl stop postgresql"
+alias restartme="sudo systemctl restart postgresql"
+alias checkme="sudo systemctl status postgresql"
+
+# Switch to postgres shell
+alias psw="sudo -iu"
+
+# Create virtual environment
+alias create-venv="python -m venv venv"
+
+# alias python=python
+# alias pip=pip3
 alias src-venv="source venv/bin/activate"
 alias opencv="pkg-config --cflags --libs /usr/local/Cellar/opencv/4.1.1_2/lib/pkgconfig/opencv4.pc"
 alias zshconfig="mate ~/.zshrc"
 alias ohmyzsh="mate ~/.oh-my-zsh"
 alias net="netstat | fzf"
+
+# Go commands
 alias gb="go build"
 alias gm="go mod init"
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME_PATH/.local/bin:$PATH"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
 
-export ZSH_FOLDER="/usr/share"
-source "$ZSH_FOLDER/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-source "$ZSH_FOLDER/zsh-autosuggestions/zsh-autosuggestions.zsh"
-
-export PATH=$PATH:$HOME/google-cloud-sdk/platform/google_appengine
 export PATH="/usr/local/opt/qt/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/qt/lib"
 export CPPFLAGS="-I/usr/local/opt/qt/include"
 
 eval "$(hub alias -s)"
-export PATH=~/.composer/vendor/bin:$PATH
