@@ -1,5 +1,5 @@
 # Home directory
-export HOME_PATH="/home/kreebz"
+export HOME_PATH=$HOME
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
