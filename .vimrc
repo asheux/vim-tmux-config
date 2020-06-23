@@ -7,6 +7,16 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+" Example vim integration for mymy
+function RevealType()
+    " set command to run mypy
+    let mypycmd = 'python3 -m mypy mypy -i'
+    let [startline, startcol] = getpos("'<")[1:2]
+    let [endline, endcol] = getpos("'>")[1:2]
+    let startcol = startcol - 1
+    execute '!python3 /home/kreebz/Projects/opensource/mypy/scripts/find_type.py % ' . startline . ' ' . startcol . ' ' . endline . ' ' . endcol . ' ' . mypycmd
+endfunction
+
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
             \ { 'fg':      ['fg', 'Normal'],
@@ -201,13 +211,15 @@ map <F11> :set nopaste<CR>
 
 inoremap jj <ESC>:w<CR>
 
+vnoremap <Leader>t :call RevealType()<CR>
+
 " autostart nerd-tree
 " autocmd vimenter * NERDTree
 " autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 0 && !exists("s:stdn_in") | NERDTree | endif
 
 nnoremap <C-p> :<C-u>Files<CR>
-" nnoremap <C-i> :GoImports<CR>
+nnoremap <C-m> :GoImports<CR>
 
 " vim mergetooltoggle
 nmap <leader>mt <plug>(MergetoolToggle)
