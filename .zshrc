@@ -24,6 +24,9 @@ export PYTHONSTARTUP="$HOME_PATH/.pythonstartup"
 # Anaconda config
 export PATH="$HOME_PATH/anaconda3/bin:$PATH"
 
+# Add python to path
+export PATH="$PATH:/usr/lib/python3.8"
+
 eval $(thefuck --alias fuck)
 
 ZSH_THEME="flazz"

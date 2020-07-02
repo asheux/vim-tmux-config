@@ -96,7 +96,7 @@ Plug 'kaicataldo/material.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Syntax helpers
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'
 Plug 'Chiel92/vim-autoformat'
 Plug 'othree/html5.vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -243,7 +243,7 @@ augroup autoformat_settings
     autocmd FileType go AutoFormatBuffer gofmt
     autocmd FileType gn AutoFormatBuffer gn
     autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-    autocmd FileType python AutoFormatBuffer yapf
+"     autocmd FileType python AutoFormatBuffer yapf
     " Alternative: autocmd FileType python AutoFormatBuffer autopep8
     autocmd FileType vue AutoFormatBuffer prettier
 augroup END
