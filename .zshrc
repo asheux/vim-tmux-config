@@ -91,6 +91,11 @@ alias net="netstat | fzf"
 alias gb="go build"
 alias gm="go mod init"
 
+# Vim commands
+alias viminstall="vim +PlugInstall +qall"
+alias vimupdate="vim +PlugUpdate +qall"
+alias vimclean="vim +PlugClean"
+
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME_PATH/.local/bin:$PATH"
 

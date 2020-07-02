@@ -46,13 +46,13 @@ Plug 'joshdick/onedark.vim'
 " Vim mergetool
 Plug 'samoshkin/vim-mergetool'
 
-Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polyglot'
 
 " Go languag support for vim
 Plug 'fatih/vim-go', {'do': 'GoUpdateBinaries'}
-
 Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
+
 " Also add Glaive, which is used to configure codefmt's maktaba flags. See
 " `:help :Glaive` for usage.
 Plug 'google/vim-glaive'
@@ -72,6 +72,17 @@ Plug 'junegunn/fzf.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'chrisbra/csv.vim'
+
+" post install (yarn install | npm install) then load plugin only for editing supported files
+Plug 'prettier/vim-prettier', { 'do': 'yarn install'  }
+
+" post install (yarn install | npm install) then load plugin only for editing
+" supported files
+" Plug 'prettier/vim-prettier', {
+"   \ 'do': 'yarn install',
+"     \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json',
+"     'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+" }
 
 " Editor config
 Plug 'editorconfig/editorconfig-vim'
@@ -117,7 +128,6 @@ Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plug 'majutsushi/tagbar'
 Plug 'wincent/command-t'
 Plug 'bling/vim-airline'
-
 Plug 'easymotion/vim-easymotion'
 
 " Initialize plugin system
@@ -135,7 +145,6 @@ let NERDTreeWinSize=36
 " common ancestor of two branches, i.e. git merge-base branchX branchY
 let g:mergetool_layout = 'mr,b'
 let g:mergetool_prefer_revision = 'local' " possible values: 'local' (default), 'remote', 'base'
-
 function s:on_mergetool_set_layout(split)
     if a:split["layout"] ==# 'mr,b' && a:split["split"] ==# 'b'
         set nodiff
@@ -187,7 +196,9 @@ set expandtab
 set ruler
 set hidden
 set nowrap
-" set autoindent
+set autoindent
+set smartindent
+set cindent
 set softtabstop=4
 set autoread
 set showmatch                   " Show matching brackets/parenthesis
@@ -238,12 +249,13 @@ augroup end
 " Format automatically
 augroup autoformat_settings
     autocmd FileType bzl AutoFormatBuffer buildifier
-    autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+    autocmd FileType c,cpp,proto AutoFormatBuffer clang-format
     autocmd FileType dart AutoFormatBuffer dartfmt
     autocmd FileType go AutoFormatBuffer gofmt
     autocmd FileType gn AutoFormatBuffer gn
     autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-"     autocmd FileType python AutoFormatBuffer yapf
+    autocmd FileType javascript,jsx,typescript,markdown,graphql,yaml,html,css,sass,scss,less,json AutoFormatBuffer prettier 
+    " autocmd FileType python AutoFormatBuffer yapf
     " Alternative: autocmd FileType python AutoFormatBuffer autopep8
     autocmd FileType vue AutoFormatBuffer prettier
 augroup END
