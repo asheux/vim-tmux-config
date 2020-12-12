@@ -27,7 +27,7 @@ export PATH="$HOME_PATH/anaconda3/bin:$PATH"
 # Add python to path
 export PATH="$PATH:/usr/lib/python3.8"
 
-eval $(thefuck --alias fuck)
+# eval $(thefuck --alias fuck)
 
 ZSH_THEME="flazz"
 
@@ -79,7 +79,7 @@ alias psw="sudo -iu"
 # Create virtual environment
 alias create-venv="python -m venv venv"
 
-# alias python=python
+alias python=python3
 # alias pip=pip3
 alias src-venv="source venv/bin/activate"
 alias opencv="pkg-config --cflags --libs /usr/local/Cellar/opencv/4.1.1_2/lib/pkgconfig/opencv4.pc"

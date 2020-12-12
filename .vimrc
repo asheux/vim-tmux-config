@@ -36,7 +36,6 @@ let g:fzf_colors =
 " Likewise, Files command with preview window
 command! -bang -nargs=? -complete=dir Files
             \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
 call plug#begin()
 
 " Gruvbox theme
@@ -149,7 +148,6 @@ function s:on_mergetool_set_layout(split)
     if a:split["layout"] ==# 'mr,b' && a:split["split"] ==# 'b'
         set nodiff
         set syntax=on
-
         resize 15
     endif
 endfunction
