@@ -27,7 +27,7 @@ export PATH="$HOME_PATH/anaconda3/bin:$PATH"
 # Add python to path
 export PATH="$PATH:/usr/lib/python3.8"
 
-# eval $(thefuck --alias fuck)
+eval $(thefuck --alias fuck)
 
 ZSH_THEME="flazz"
 
@@ -73,6 +73,12 @@ alias stopme="sudo systemctl stop postgresql"
 alias restartme="sudo systemctl restart postgresql"
 alias checkme="sudo systemctl status postgresql"
 
+# switch git config
+alias ashhub="git config --global user.name asheux && git config --global user.email brian.mboya@protonmail.com"
+alias syhub="git config --global user.name sycyi && git config --global user.email sycyi@protonmail.com"
+alias ashlab="git config --global user.name asheux && git config --global user.email brianashiundu000@gmail.com"
+alias gcheck="git config --list"
+
 # Switch to postgres shell
 alias psw="sudo -iu"
 
@@ -95,6 +101,11 @@ alias gm="go mod init"
 alias viminstall="vim +PlugInstall +qall"
 alias vimupdate="vim +PlugUpdate +qall"
 alias vimclean="vim +PlugClean"
+
+# bat
+alias ll="ls | bat"
+alias tree="tree | bat"
+alias gitdiff="git diff --name-only --diff-filter=d | xargs bat --diff"
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME_PATH/.local/bin:$PATH"

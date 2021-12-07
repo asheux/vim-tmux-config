@@ -7,16 +7,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" Example vim integration for mymy
-function RevealType()
-    " set command to run mypy
-    let mypycmd = 'python3 -m mypy mypy -i'
-    let [startline, startcol] = getpos("'<")[1:2]
-    let [endline, endcol] = getpos("'>")[1:2]
-    let startcol = startcol - 1
-    execute '!python3 /home/kreebz/Projects/opensource/mypy/scripts/find_type.py % ' . startline . ' ' . startcol . ' ' . endline . ' ' . endcol . ' ' . mypycmd
-endfunction
-
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
             \ { 'fg':      ['fg', 'Normal'],
@@ -42,6 +32,9 @@ call plug#begin()
 Plug 'morhetz/gruvbox'
 Plug 'joshdick/onedark.vim'
 
+" Palenight theme
+Plug 'drewtempelmeyer/palenight.vim'
+
 " Vim mergetool
 Plug 'samoshkin/vim-mergetool'
 
@@ -61,7 +54,7 @@ Plug 'ryanoasis/vim-devicons'
 
 " Autocomplete
 Plug 'ervandew/supertab'
-Plug 'valloric/youcompleteme'
+" Plug 'valloric/youcompleteme'
 
 " Fuzzy finder PlugInstall and PlugUpdate will clone fzf in ~/.fzf and run the install script
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -74,14 +67,6 @@ Plug 'chrisbra/csv.vim'
 
 " post install (yarn install | npm install) then load plugin only for editing supported files
 Plug 'prettier/vim-prettier', { 'do': 'yarn install'  }
-
-" post install (yarn install | npm install) then load plugin only for editing
-" supported files
-" Plug 'prettier/vim-prettier', {
-"   \ 'do': 'yarn install',
-"     \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json',
-"     'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-" }
 
 " Editor config
 Plug 'editorconfig/editorconfig-vim'
@@ -97,7 +82,7 @@ Plug 'honza/vim-snippets'
 Plug 'tmhedberg/SimpylFold'
 
 " Colorschemes 
-Plug 'flazz/vim-colorschemes'
+" Plug 'flazz/vim-colorschemes'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -173,8 +158,8 @@ let g:html_indent_style1 = "inc"
 let g:html_indent_inctags = "address,article,aside,audio,blockquote,canvas,dd,div,dl,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,hr,main,nav,noscript,ol,output,p,pre,section,table,tfoot,ul,video"
 
 let g:pymode_python = 'python3'
-let g:gruvbox_constrast_dark='default'
-let g:gruvbox_italic=1
+" let g:gruvbox_constrast_dark='default'
+" let g:gruvbox_italic=1
 
 " OneDark
 let g:onedark_hide_endofbuffer = 1
@@ -220,15 +205,17 @@ map <F11> :set nopaste<CR>
 
 inoremap jj <ESC>:w<CR>
 
-vnoremap <Leader>t :call RevealType()<CR>
-
 " autostart nerd-tree
 " autocmd vimenter * NERDTree
 " autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 0 && !exists("s:stdn_in") | NERDTree | endif
 
+" nnoremap <C-c>"*y<CR>
+" nnoremap <C-p>"*p<CR>
 nnoremap <C-p> :<C-u>Files<CR>
-nnoremap <C-m> :GoImports<CR>
+nnoremap <C-,> :<C-u>Buffers<CR>
+" nnoremap <C-m> :GoImports<CR>
+nnoremap <C-m> :Git blame<CR>
 
 " vim mergetooltoggle
 nmap <leader>mt <plug>(MergetoolToggle)
@@ -287,7 +274,11 @@ augroup END
 " colorschemes 
 " Dark: monokai-chris, gruvbox
 " Light: ChocolatePapaya
-colorscheme gruvbox 
+colorscheme badwolf
+
+let g:palenight_color_overrides = {
+\    'black': { 'gui': '#000000', "cterm": "0", "cterm16": "0" },
+\}
 
 syntax on
 " colorscheme onedark
