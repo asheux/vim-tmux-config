@@ -29,7 +29,7 @@ export PATH="$PATH:/usr/lib/python3.8"
 
 eval $(thefuck --alias fuck)
 
-ZSH_THEME="flazz"
+ZSH_THEME="dieter"
 
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
@@ -106,6 +106,16 @@ alias vimclean="vim +PlugClean"
 alias ll="ls | bat"
 alias tree="tree | bat"
 alias gitdiff="git diff --name-only --diff-filter=d | xargs bat --diff"
+
+# Open vim and save the current base directory.
+# This is for fxf customized :Files command for preview window
+# to always use this directory as the base dir
+# You must create $HOME/cronjobs/base_dir.zh as executable
+# with contents "cat $HOME/cronjobs/dir.txt" for this to work
+function ovim() {
+    mkdir -p $HOME/Projects/Configs/vim-tmux-config/cronjobs &&
+        echo "$(pwd)" > $HOME/Projects/Configs/vim-tmux-config/cronjobs/dir.txt && vim
+}
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME_PATH/.local/bin:$PATH"

@@ -25,7 +25,9 @@ let g:fzf_colors =
 
 " Likewise, Files command with preview window
 command! -bang -nargs=? -complete=dir Files
-            \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+            \ call fzf#vim#files(<q-args>,
+            \ fzf#vim#with_preview({'dir': systemlist(
+            \ 'bash ~/Projects/Configs/vim-tmux-config/cronjobs/base_dir.sh')[0]}), <bang>0)
 call plug#begin()
 
 " Gruvbox theme
@@ -170,7 +172,6 @@ set foldlevel=99
 set tags=./tags,tags;$HOME
 set autochdir
 set completeopt-=preview " disable preview window
-set autochdir
 set background=dark " required by gruvbox
 set bs=2
 set tabstop=4
@@ -214,6 +215,8 @@ inoremap jj <ESC>:w<CR>
 " nnoremap <C-p>"*p<CR>
 nnoremap <C-p> :<C-u>Files<CR>
 nnoremap <C-,> :<C-u>Buffers<CR>
+nnoremap <C-w> :<C-u>Windows<CR>
+nnoremap <C-s> :<C-u>Marks<CR>
 " nnoremap <C-m> :GoImports<CR>
 nnoremap <C-m> :Git blame<CR>
 
@@ -263,7 +266,7 @@ noremap <silent> cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<C
 
 au CursorHold * checktime
 au FocusGained * :redraw!
-au FocusGained * :q!
+" au FocusGained * :q!
 
 augroup numbertoggle
     autocmd!
