@@ -7,6 +7,14 @@ export HOME_PATH=$HOME
 export LAMBDA_MOD_N_DIR_LEVELS=10
 export ZSH="$HOME_PATH/.oh-my-zsh"
 export TERM="xterm-256color"
+export PYTHONPATH="$PYTHONPATH:$HOME_PATH/Projects/Mywork/python"
+
+# MacPorts
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export MANPATH=/opt/local/share/man:$MANPATH
+
+# Proxy Server
+export http_proxy=http://localhost:8118
 
 # Manually set language environments
 export LANG=en_US.UTF-8
@@ -17,6 +25,7 @@ export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_DEFAULT_OPTS='--height 50% --layout=reverse --border'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+. "$HOME/.cargo/env"
 
 # Set python startup to the environment variables
 export PYTHONSTARTUP="$HOME_PATH/.pythonstartup"
@@ -25,7 +34,7 @@ export PYTHONSTARTUP="$HOME_PATH/.pythonstartup"
 export PATH="$HOME_PATH/anaconda3/bin:$PATH"
 
 # Add python to path
-export PATH="$PATH:/usr/lib/python3.8"
+# export PATH="$PATH:/usr/lib/python3.8"
 
 eval $(thefuck --alias fuck)
 
@@ -86,7 +95,7 @@ alias psw="sudo -iu"
 alias create-venv="python -m venv venv"
 
 alias python=python3
-# alias pip=pip3
+alias pip=pip3
 alias src-venv="source venv/bin/activate"
 alias opencv="pkg-config --cflags --libs /usr/local/Cellar/opencv/4.1.1_2/lib/pkgconfig/opencv4.pc"
 alias zshconfig="mate ~/.zshrc"

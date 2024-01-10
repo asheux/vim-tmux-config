@@ -1,4 +1,3 @@
-set encoding=utf-8 " required by YCM
 let vim_markdown_preview_github=1
 
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -98,7 +97,7 @@ Plug 'Chiel92/vim-autoformat'
 Plug 'othree/html5.vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'jiangmiao/auto-pairs'
-Plug 'lambdalisue/vim-django-support'
+" Plug 'lambdalisue/vim-django-support'
 Plug 'alvan/vim-closetag'
 
 " File tree
@@ -113,7 +112,7 @@ Plug 'benmills/vimux'
 Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plug 'majutsushi/tagbar'
 Plug 'wincent/command-t'
-Plug 'bling/vim-airline'
+" Plug 'bling/vim-airline'
 Plug 'easymotion/vim-easymotion'
 
 " Initialize plugin system
@@ -249,7 +248,7 @@ augroup autoformat_settings
 augroup END
 
 " Commenting blocks of code.
-autocmd FileType c,cpp,java,scala,go let b:comment_leader = '// '
+autocmd FileType c,cpp,javascript,java,scala,go let b:comment_leader = '// '
 autocmd FileType sh,ruby,python      let b:comment_leader = '# '
 autocmd FileType conf,fstab          let b:comment_leader = '# '
 autocmd FileType tex                 let b:comment_leader = '% '

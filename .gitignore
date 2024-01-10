@@ -1,6 +1,7 @@
 # vim files
 *~
-.*.sw?
+*.sw?
 
 dir.txt
+.DS_Store
 
