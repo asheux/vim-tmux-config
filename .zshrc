@@ -83,9 +83,9 @@ alias restartme="sudo systemctl restart postgresql"
 alias checkme="sudo systemctl status postgresql"
 
 # switch git config
-alias ashhub="git config --global user.name asheux && git config --global user.email brian.mboya@protonmail.com"
+alias ghub="git config --global user.name asheux && git config --global user.email brian.mboya@protonmail.com"
 alias syhub="git config --global user.name sycyi && git config --global user.email sycyi@protonmail.com"
-alias ashlab="git config --global user.name asheux && git config --global user.email brianashiundu000@gmail.com"
+alias glab="git config --global user.name asheux && git config --global user.email brianashiundu000@gmail.com"
 alias gcheck="git config --list"
 
 # Switch to postgres shell
