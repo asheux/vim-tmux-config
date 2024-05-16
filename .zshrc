@@ -9,12 +9,12 @@ export ZSH="$HOME_PATH/.oh-my-zsh"
 export TERM="xterm-256color"
 export PYTHONPATH="$PYTHONPATH:$HOME_PATH/Projects/Mywork/python"
 
+# Find the .vimrc file and set it to MYVIMRC
+export MYVIMRC="$HOME_PATH/Projects/Configs/vim-tmux-config/.vimrc"
+
 # MacPorts
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
-
-# Proxy Server
-export http_proxy=http://localhost:8118
 
 # Manually set language environments
 export LANG=en_US.UTF-8
@@ -24,17 +24,19 @@ export LC_ALL=en_US.UTF-8
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_DEFAULT_OPTS='--height 50% --layout=reverse --border'
 
+export PATH="/usr/local/bin:$PATH"
+export PATH="$HOME_PATH/.local/bin:$PATH"
+
+export PATH="/usr/local/opt/qt/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/qt/lib"
+export CPPFLAGS="-I/usr/local/opt/qt/include"
+
+eval "$(hub alias -s)"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-. "$HOME/.cargo/env"
 
 # Set python startup to the environment variables
 export PYTHONSTARTUP="$HOME_PATH/.pythonstartup"
-
-# Anaconda config
-export PATH="$HOME_PATH/anaconda3/bin:$PATH"
-
-# Add python to path
-# export PATH="$PATH:/usr/lib/python3.8"
 
 eval $(thefuck --alias fuck)
 
@@ -46,31 +48,19 @@ ZSH_THEME="dieter"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-git
+    git
 )
-
-source $ZSH/oh-my-zsh.sh
 
 # Go set up
 export GOPATH=$HOME/go
 export PATH=$PATH:/usr/local/go/bin
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 
-# Anaconda
-alias actconda="source /opt/anaconda/bin/activate root"
-# alias actconda="conda activate"
-alias deconda="source /opt/anaconda/bin/deactivate root"
-# alias deconda="conda deactivate"
-
+source $ZSH/oh-my-zsh.sh
 # Start postgresql
 alias psql-start="pg_ctl -D /usr/local/var/postgres start"
 alias psql-restart="pg_ctl -D /usr/local/var/postgres restart"
@@ -100,7 +90,7 @@ alias src-venv="source venv/bin/activate"
 alias opencv="pkg-config --cflags --libs /usr/local/Cellar/opencv/4.1.1_2/lib/pkgconfig/opencv4.pc"
 alias zshconfig="mate ~/.zshrc"
 alias ohmyzsh="mate ~/.oh-my-zsh"
-alias net="netstat | fzf"
+alias net="netstat"
 
 # Go commands
 alias gb="go build"
@@ -116,6 +106,9 @@ alias ll="ls | bat"
 alias tree="tree | bat"
 alias gitdiff="git diff --name-only --diff-filter=d | xargs bat --diff"
 
+# Proxy Server
+alias proxyto="export http_proxy=http://localhost:8118"
+
 # Open vim and save the current base directory.
 # This is for fxf customized :Files command for preview window
 # to always use this directory as the base dir
@@ -124,13 +117,4 @@ alias gitdiff="git diff --name-only --diff-filter=d | xargs bat --diff"
 function ovim() {
     mkdir -p $HOME/Projects/Configs/vim-tmux-config/cronjobs &&
         echo "$(pwd)" > $HOME/Projects/Configs/vim-tmux-config/cronjobs/dir.txt && vim
-}
-
-export PATH="/usr/local/bin:$PATH"
-export PATH="$HOME_PATH/.local/bin:$PATH"
-
-export PATH="/usr/local/opt/qt/bin:$PATH"
-export LDFLAGS="-L/usr/local/opt/qt/lib"
-export CPPFLAGS="-I/usr/local/opt/qt/include"
-
-eval "$(hub alias -s)"
+    } 
