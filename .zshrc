@@ -1,3 +1,14 @@
+kill_interactive() {
+    local pid
+    pid=$(ps -e -o pid,comm | fzf --height 40% --layout=reverse --prompt="Select process to kill: " | awk '{print $1}')
+    if [[ -n "$pid" ]]; then
+        echo "Killing process ID $pid"
+        kill -9 "$pid"
+    else
+        echo "No process selected."
+    fi
+}
+
 # Home directory
 export HOME_PATH=$HOME
 
@@ -34,6 +45,7 @@ export CPPFLAGS="-I/usr/local/opt/qt/include"
 eval "$(hub alias -s)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+. "$HOME/.cargo/env"
 
 # Set python startup to the environment variables
 export PYTHONSTARTUP="$HOME_PATH/.pythonstartup"
@@ -108,6 +120,9 @@ alias gitdiff="git diff --name-only --diff-filter=d | xargs bat --diff"
 
 # Proxy Server
 alias proxyto="export http_proxy=http://localhost:8118"
+
+# Kill process
+alias slay="kill_interactive"
 
 # Open vim and save the current base directory.
 # This is for fxf customized :Files command for preview window

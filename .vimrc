@@ -79,6 +79,9 @@ Plug 'easymotion/vim-easymotion'
 " Black formatter installation 
 Plug 'psf/black', { 'branch': 'stable' }
 
+Plug 'bling/vim-airline'
+Plug 'scrooloose/syntastic'
+
 call plug#end()
 
 " Auto format this file
@@ -89,7 +92,7 @@ autocmd BufWritePre .zshrc execute "normal! gg=G" | let $MYZSHRC = expand('%:p')
 autocmd BufWritePre ./.zshrc :%!shfmt -w
 
 " Initialize configuration dictionary
-let g:fzf_vim = {}
+" let g:fzf_vim = {}
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
@@ -113,35 +116,13 @@ command! -bang -nargs=? -complete=dir Files
             \ fzf#vim#with_preview({'dir': systemlist(
             \ 'bash ~/Projects/Configs/vim-tmux-config/cronjobs/base_dir.sh')[0]}), <bang>0)
 
-command! -bang -complete=dir -nargs=? LS
-            \ call fzf#run(fzf#wrap('ls', {'source': 'ls', 'dir': <q-args>}, <bang>0))
 
-" Terminal colors for seoul256 color scheme
-if has('nvim')
-    let g:terminal_color_0 = '#4e4e4e'
-    let g:terminal_color_1 = '#d68787'
-    let g:terminal_color_2 = '#5f865f'
-    let g:terminal_color_3 = '#d8af5f'
-    let g:terminal_color_4 = '#85add4'
-    let g:terminal_color_5 = '#d7afaf'
-    let g:terminal_color_6 = '#87afaf'
-    let g:terminal_color_7 = '#d0d0d0'
-    let g:terminal_color_8 = '#626262'
-    let g:terminal_color_9 = '#d75f87'
-    let g:terminal_color_10 = '#87af87'
-    let g:terminal_color_11 = '#ffd787'
-    let g:terminal_color_12 = '#add4fb'
-    let g:terminal_color_13 = '#ffafaf'
-    let g:terminal_color_14 = '#87d7d7'
-    let g:terminal_color_15 = '#e4e4e4'
-else
-    let g:terminal_ansi_colors = [
-                \ '#4e4e4e', '#d68787', '#5f865f', '#d8af5f',
-                \ '#85add4', '#d7afaf', '#87afaf', '#d0d0d0',
-                \ '#626262', '#d75f87', '#87af87', '#ffd787',
-                \ '#add4fb', '#ffafaf', '#87d7d7', '#e4e4e4'
-                \ ]
-endif
+let g:terminal_ansi_colors = [
+            \ '#4e4e4e', '#d68787', '#5f865f', '#d8af5f',
+            \ '#85add4', '#d7afaf', '#87afaf', '#d0d0d0',
+            \ '#626262', '#d75f87', '#87af87', '#ffd787',
+            \ '#add4fb', '#ffafaf', '#87d7d7', '#e4e4e4'
+            \ ]
 
 " See `man fzf-tmux` for available options
 if exists('$TMUX')
@@ -164,6 +145,8 @@ function s:on_mergetool_set_layout(split)
     endif
 endfunction
 let g:MergetoolSetLayoutCallback = function('s:on_mergetool_set_layout')
+
+let g:airline_powerline_fonts=1
 
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
@@ -217,6 +200,9 @@ set number relativenumber
 
 " split below and right
 set splitbelow
+
+map <F10> :set paste<CR>
+map <F11> :set nopaste<CR>
 
 inoremap jj <ESC>:w<CR>
 
