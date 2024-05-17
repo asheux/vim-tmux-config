@@ -73,6 +73,8 @@ export PATH=$PATH:/usr/local/go/bin
 # For a full list of active aliases, run `alias`.
 
 source $ZSH/oh-my-zsh.sh
+
+source ~/.nvm/nvm.sh
 # Start postgresql
 alias psql-start="pg_ctl -D /usr/local/var/postgres start"
 alias psql-restart="pg_ctl -D /usr/local/var/postgres restart"
@@ -123,6 +125,9 @@ alias proxyto="export http_proxy=http://localhost:8118"
 
 # Kill process
 alias slay="kill_interactive"
+
+# Unproxy
+alias quest="nvm use 20 && unset http_proxy"
 
 # Open vim and save the current base directory.
 # This is for fxf customized :Files command for preview window
