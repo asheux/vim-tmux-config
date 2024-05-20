@@ -91,6 +91,7 @@ alias ghub="git config --global user.name asheux && git config --global user.ema
 alias syhub="git config --global user.name sycyi && git config --global user.email sycyi@protonmail.com"
 alias glab="git config --global user.name asheux && git config --global user.email brianashiundu000@gmail.com"
 alias gcheck="git config --list"
+alias bruh="git branch | fzf"
 
 # Switch to postgres shell
 alias psw="sudo -iu"

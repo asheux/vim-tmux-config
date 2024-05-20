@@ -1,5 +1,67 @@
+function s:on_mergetool_set_layout(split)
+    if a:split["layout"] ==# 'mr,b' && a:split["split"] ==# 'b'
+        set nodiff
+        set syntax=on
+        resize 15
+    endif
+endfunction
+
 " Set up global configuration dictionary
 let vim_markdown_preview_github=1
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+            \ { 'fg':      ['fg', 'Normal'],
+            \ 'bg':      ['bg', 'Normal'],
+            \ 'hl':      ['fg', 'Comment'],
+            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+            \ 'hl+':     ['fg', 'Statement'],
+            \ 'info':    ['fg', 'PreProc'],
+            \ 'border':  ['fg', 'Ignore'],
+            \ 'prompt':  ['fg', 'Conditional'],
+            \ 'pointer': ['fg', 'Exception'],
+            \ 'marker':  ['fg', 'Keyword'],
+            \ 'spinner': ['fg', 'Label'],
+            \ 'header':  ['fg', 'Comment'] }
+
+let g:terminal_ansi_colors = [
+            \ '#4e4e4e', '#d68787', '#5f865f', '#d8af5f',
+            \ '#85add4', '#d7afaf', '#87afaf', '#d0d0d0',
+            \ '#626262', '#d75f87', '#87af87', '#ffd787',
+            \ '#add4fb', '#ffafaf', '#87d7d7', '#e4e4e4'
+            \ ]
+
+" Vim mergetool customization
+" (m) - for working tree version of MERGED file
+" (r) - for 'remote' revision
+" common ancestor of two branches, i.e. git merge-base branchX branchY
+let g:mergetool_layout = 'mr,b'
+let g:mergetool_prefer_revision = 'local' " possible values: 'local' (default), 'remote', 'base'
+let g:MergetoolSetLayoutCallback = function('s:on_mergetool_set_layout')
+
+let g:airline_powerline_fonts=1
+
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.vue,*.php,*.phtml,*.js'
+let g:SimpylFold_docstring_preview=1
+let g:goldenview__enable_default_mapping = 0
+let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+
+" YCM compatibility with UltiSnips
+let g:ycm_key_list_select_completion = [ '<C-n>', '<Down>' ] 
+let g:ycm_key_list_previous_completion = [ '<C-p>', '<Up>' ]
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" HTML indentation
+" syntax enable
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
+let g:html_indent_inctags = "address,article,aside,audio,blockquote,canvas,dd,div,dl,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,hr,main,nav,noscript,ol,output,p,pre,section,table,tfoot,ul,video"
+
+let g:pymode_python = 'python3'
 
 " Plugin management with vim-plug
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -8,6 +70,18 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+if (has("termguicolors"))
+    set termguicolors
+endif
+
+" See `man fzf-tmux` for available options
+if exists('$TMUX')
+    let g:fzf_layout = { 'tmux': '-p90%,60%' }
+else
+    let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+endif
+
+packloadall
 " Initialize plugin system
 call plug#begin()
 
@@ -39,7 +113,10 @@ Plug 'mxw/vim-jsx'
 Plug 'chrisbra/csv.vim'
 
 " post install (yarn install | npm install) then load plugin only for editing supported files
-Plug 'prettier/vim-prettier', { 'do': 'yarn install'  }
+" post install (yarn install | npm install) then load plugin only for editing supported files
+Plug 'prettier/vim-prettier', {
+            \ 'do': 'yarn install --frozen-lockfile --production',
+            \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
 
 " Editor config
 Plug 'editorconfig/editorconfig-vim'
@@ -84,90 +161,48 @@ Plug 'scrooloose/syntastic'
 
 call plug#end()
 
-" Auto format this file
-autocmd BufWritePre .vimrc let save_cursor = getpos(".") | execute "normal! gg=G" | call setpos('.', save_cursor)
+augroup format_config_file
+    " Auto format this file
+    autocmd BufWritePre .vimrc let save_cursor = getpos(".") | execute "normal! gg=G" | call setpos('.', save_cursor)
 
-" Auto-format .zshrc file on save
-autocmd BufWritePre .zshrc execute "normal! gg=G" | let $MYZSHRC = expand('%:p')
-autocmd BufWritePre ./.zshrc :%!shfmt -w
+    " Auto-format .zshrc file on save
+    autocmd BufWritePre .zshrc execute "normal! gg=G" | let $MYZSHRC = expand('%:p')
+    autocmd BufWritePre ./.zshrc :%!shfmt -w
+augroup END
 
-" Initialize configuration dictionary
-" let g:fzf_vim = {}
+augroup python
+    autocmd!
+    autocmd FileType python syn keyword pythonSelf self | highlight def link pythonSelf Special
+augroup END
 
-" Customize fzf colors to match your color scheme
-let g:fzf_colors =
-            \ { 'fg':      ['fg', 'Normal'],
-            \ 'bg':      ['bg', 'Normal'],
-            \ 'hl':      ['fg', 'Comment'],
-            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-            \ 'hl+':     ['fg', 'Statement'],
-            \ 'info':    ['fg', 'PreProc'],
-            \ 'border':  ['fg', 'Ignore'],
-            \ 'prompt':  ['fg', 'Conditional'],
-            \ 'pointer': ['fg', 'Exception'],
-            \ 'marker':  ['fg', 'Keyword'],
-            \ 'spinner': ['fg', 'Label'],
-            \ 'header':  ['fg', 'Comment'] }
+" Format automatically
+augroup autoformat_settings
+    autocmd FileType bzl AutoFormatBuffer buildifier
+    autocmd FileType c,cpp,proto AutoFormatBuffer clang-format
+    autocmd FileType dart AutoFormatBuffer dartfmt
+    autocmd FileType go AutoFormatBuffer gofmt
+    autocmd FileType gn AutoFormatBuffer gn
+    autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+    autocmd FileType javascript,jsx,typescript,markdown,graphql,yaml,html,css,sass,scss,less,json AutoFormatBuffer prettier 
+    "     autocmd FileType python AutoFormatBuffer black
+    autocmd FileType vue AutoFormatBuffer prettier
+augroup END
 
-" Likewise, Files command with preview window
-command! -bang -nargs=? -complete=dir Files
-            \ call fzf#vim#files(<q-args>,
-            \ fzf#vim#with_preview({'dir': systemlist(
-            \ 'bash ~/Projects/Configs/vim-tmux-config/cronjobs/base_dir.sh')[0]}), <bang>0)
+" Commenting blocks of code.
+augroup comment_file
+    autocmd FileType c,cpp,javascript,java,scala,go let b:comment_leader = '// '
+    autocmd FileType sh,ruby,python      let b:comment_leader = '# '
+    autocmd FileType conf,fstab          let b:comment_leader = '# '
+    autocmd FileType tex                 let b:comment_leader = '% '
+    autocmd FileType mail                let b:comment_leader = '> '
+    autocmd FileType vim                 let b:comment_leader = '" '
+augroup END
 
-
-let g:terminal_ansi_colors = [
-            \ '#4e4e4e', '#d68787', '#5f865f', '#d8af5f',
-            \ '#85add4', '#d7afaf', '#87afaf', '#d0d0d0',
-            \ '#626262', '#d75f87', '#87af87', '#ffd787',
-            \ '#add4fb', '#ffafaf', '#87d7d7', '#e4e4e4'
-            \ ]
-
-" See `man fzf-tmux` for available options
-if exists('$TMUX')
-    let g:fzf_layout = { 'tmux': '-p90%,60%' }
-else
-    let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-endif
-
-" Vim mergetool customization
-" (m) - for working tree version of MERGED file
-" (r) - for 'remote' revision
-" common ancestor of two branches, i.e. git merge-base branchX branchY
-let g:mergetool_layout = 'mr,b'
-let g:mergetool_prefer_revision = 'local' " possible values: 'local' (default), 'remote', 'base'
-function s:on_mergetool_set_layout(split)
-    if a:split["layout"] ==# 'mr,b' && a:split["split"] ==# 'b'
-        set nodiff
-        set syntax=on
-        resize 15
-    endif
-endfunction
-let g:MergetoolSetLayoutCallback = function('s:on_mergetool_set_layout')
-
-let g:airline_powerline_fonts=1
-
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.vue,*.php,*.phtml,*.js'
-let g:SimpylFold_docstring_preview=1
-let g:goldenview__enable_default_mapping = 0
-let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-
-" YCM compatibility with UltiSnips
-let g:ycm_key_list_select_completion = [ '<C-n>', '<Down>' ] 
-let g:ycm_key_list_previous_completion = [ '<C-p>', '<Up>' ]
-let g:SuperTabDefaultCompletionType = '<C-n>'
-
-" HTML indentation
-" syntax enable
-let g:html_indent_script1 = "inc"
-let g:html_indent_style1 = "inc"
-let g:html_indent_inctags = "address,article,aside,audio,blockquote,canvas,dd,div,dl,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,hr,main,nav,noscript,ol,output,p,pre,section,table,tfoot,ul,video"
-
-let g:pymode_python = 'python3'
+augroup numbertoggle
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
+augroup END
 
 " set foldmethod=indent
 set foldlevel=99
@@ -220,51 +255,20 @@ map <Leader>vp :VimuxPromptCommand<CR>
 nmap <F8> :TagbarToggle<CR>
 nnoremap <space> za 
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
-augroup python
-    autocmd!
-    autocmd FileType python syn keyword pythonSelf self | highlight def link pythonSelf Special
-augroup end
-
-" Format automatically
-augroup autoformat_settings
-    autocmd FileType bzl AutoFormatBuffer buildifier
-    autocmd FileType c,cpp,proto AutoFormatBuffer clang-format
-    autocmd FileType dart AutoFormatBuffer dartfmt
-    autocmd FileType go AutoFormatBuffer gofmt
-    autocmd FileType gn AutoFormatBuffer gn
-    autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-    autocmd FileType javascript,jsx,typescript,markdown,graphql,yaml,html,css,sass,scss,less,json AutoFormatBuffer prettier 
-    autocmd FileType python AutoFormatBuffer black
-    autocmd FileType vue AutoFormatBuffer prettier
-augroup END
-
-" Commenting blocks of code.
-autocmd FileType c,cpp,javascript,java,scala,go let b:comment_leader = '// '
-autocmd FileType sh,ruby,python      let b:comment_leader = '# '
-autocmd FileType conf,fstab          let b:comment_leader = '# '
-autocmd FileType tex                 let b:comment_leader = '% '
-autocmd FileType mail                let b:comment_leader = '> '
-autocmd FileType vim                 let b:comment_leader = '" '
 noremap <silent> cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
 noremap <silent> cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
 
 au CursorHold * checktime
 au FocusGained * :redraw!
 
-augroup numbertoggle
-    autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-    autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
-augroup END
-
 " colorschemes 
 " Dark: monokai-chris, gruvbox
 " Light: ChocolatePapaya
 colorscheme badwolf
-
 syntax on
 
-if (has("termguicolors"))
-    set termguicolors
-endif
+" Likewise, Files command with preview window
+command! -bang -nargs=? -complete=dir Files
+            \ call fzf#vim#files(<q-args>,
+            \ fzf#vim#with_preview({'dir': systemlist(
+            \ 'bash ~/Projects/Configs/vim-tmux-config/cronjobs/base_dir.sh')[0]}), <bang>0)
