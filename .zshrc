@@ -87,13 +87,19 @@ alias restartme="sudo systemctl restart postgresql"
 alias checkme="sudo systemctl status postgresql"
 
 # switch git config
-alias ghub="git config --global user.name asheux && git config --global user.email brian.mboya@protonmail.com"
+alias ghub="git config --global user.name 'asheux' && git config --global user.email 'brian.mboya@protonmail.com'"
 alias segub="ghub && git config --global push.default current"
-alias syhub="git config --global user.name sycyi && git config --global user.email sycyi@protonmail.com"
-alias glab="git config --global user.name asheux && git config --global user.email brianashiundu000@gmail.com"
+alias syhub="git config --global user.name 'sycyi' && git config --global user.email 'sycyi@protonmail.com'"
+alias glab="git config --global user.name 'Brian Mboya' && git config --global user.email 'brianashiundu000@gmail.com'"
 alias segab="glab && git config --global push.default current"
 alias gcheck="git config --list"
 alias bruh="git branch | fzf"
+alias addlab="segab && git add ."
+alias addhub="segub && git add ."
+alias gammend="git commit --amend --no-edit -n"
+alias semail="git config user.email 'brianashiundu000@gmail.com'"
+alias setname="git config user.name 'Brian Mboya'"
+alias sail="$HOME_PATH/Projects/Mywork/php/quest-list-backend/vendor/bin/sail"
 
 # Switch to postgres shell
 alias psw="sudo -iu"
