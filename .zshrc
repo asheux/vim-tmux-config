@@ -41,6 +41,7 @@ export PATH="$HOME_PATH/.local/bin:$PATH"
 export PATH="/usr/local/opt/qt/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/qt/lib"
 export CPPFLAGS="-I/usr/local/opt/qt/include"
+export MALLOC_STACK_LOGGING=0
 
 eval "$(hub alias -s)"
 
